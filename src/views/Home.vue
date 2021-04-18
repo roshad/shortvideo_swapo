@@ -26,38 +26,8 @@
                         <img v-show="iconPlayShow" class="icon_play" @click="playvideo"
                              src="http://npjy.oss-cn-beijing.aliyuncs.com/images/file-1575340653940esdHR.png"/>
                     </div>
-                    <!-- 右侧头像、点赞、评论、分享功能 -->
-                    <div class="tools_right">
-                        <div class="tools_r_li">
-                            <img :src="item.tag_image" class="tag_image">
-                            <i class="iconfont icon-jiahao tag_add" v-show="!item.tagFollow"
-                               @click="checkSubscribe(item,index)"></i>
-                            <i class="iconfont icon-duihao tag_dui" v-show="item.tagFollow"
-                               :class="item.tagFollow?'tag_dui_active':''"></i>
-                        </div>
-                        <div class="tools_r_li" @click="changeFabulous(item,index)">
-                            <i class="iconfont icon-shoucang icon_right"
-                               :class="item.fabulous?'fabulous_active':''"></i>
-                            <div class="tools_r_num">52.1w</div>
-                        </div>
-                        <div class="tools_r_li" @click="changeComment">
-                            <i class="iconfont icon-liuyan icon_right icon_right_change"></i>
-                            <div class="tools_r_num">12.5w</div>
-                        </div>
-                        <div class="tools_r_li" @click="changeShare">
-                            <i class="iconfont icon-iconfontforward icon_right"></i>
-                            <div class="tools_r_num">22.2w</div>
-                        </div>
-                    </div>
-                    <!-- 底部作品描述 -->
-                    <div class="production_box">
-                        <div class="production_name">
-                            @{{item.author}}
-                        </div>
-                        <div class="production_des">
-                            {{item.des}}
-                        </div>
-                    </div>
+                
+                 
                 </van-swipe-item>
             </van-swipe>
             <!--底部操作栏-->
@@ -73,102 +43,9 @@
                     <span class="bottom_tab_span">我的</span>
                 </div>
             </div>
-            <!--分享弹框-->
-            <div class="share_box" :class="showShareBox?'share_active':''">
-                <div class="share_tips">分享到</div>
-                <ul class="share_ul">
-                    <li class="share_li pengyouquan_li">
-                        <i class="iconfont icon-pengyouquan pengyouquan"></i>
-                    </li>
-                    <li class="share_li">
-                        <i class="iconfont icon-weixin weixin"></i>
-                    </li>
-                    <li class="share_li" @click="copyUrl">
-                        <i class="iconfont icon-lianjie lianjie"></i>
-                    </li>
-                    <div class="clear"></div>
-                </ul>
-                <div class="share_cancel" @click="cancelShare">取消</div>
-            </div>
-            <!--留言弹窗-->
-            <van-popup v-model="commentPop" closeable :overlay="true" class="comment_container" position="bottom">
-                <div class="comment_box">
-                    <div class="comment_top">
-                        12.5w条评论
-                        <i class="iconfont icon-guanbi1 guanbi3" @click="closeComment"></i>
-                    </div>
-                    <ul class="comment_ul">
-                        <div v-if="videoComment.length!=0">
-                            <transition-group appear>
-                                <li class="comment_li" v-for="(item,index) in videoComment" :key="index"
-                                    @click="replayUser(item,index,-1)">
-                                    <div class="comment_author_left">
-                                        <img :src="item.avatar">
-                                    </div>
-                                    <div class="comment_author_right">
-                                        <div class="comment_author_top">
-                                            <div class="comment_author_name">@{{item.nickname}}</div>
-                                            <div class="icon-shoucang1_box" @click.stop="commentLove(item,index,-1)">
-                                                <div class="icon_right_change"
-                                                     :class="item.love_comment?'love_active':''">
-                                                    <i class="iconfont icon-shoucang icon-shoucang1"></i>
-                                                </div>
-                                                <div class="shoucang1_num">{{item.love_count}}</div>
-                                            </div>
-                                        </div>
-                                        <div class="comment_author_text">
-                                            {{item.comment_content}}<span>{{item.create_time}}</span></div>
-                                    </div>
-                                    <div class="clear"></div>
-                                    <div class="comment_replay_box">
-                                        <transition-group appear>
-                                            <div class="comment_replay_li" v-for="(item2,index2) in item.child_comment"
-                                                 :key="index2" @click.stop="replayUser(item2,index,index2)">
-                                                <div class="comment_replay_left">
-                                                    <img :src="item2.avatar">
-                                                </div>
-                                                <div class="comment_replay_right">
-                                                    <div class="comment_replay_top">
-                                                        <div class="comment_replay_name">@{{item2.nickname}}</div>
-                                                        <div class="icon-shoucang1_box"
-                                                             @click.stop="commentLove(item2,index,index2)">
-                                                            <div class="icon_right_change"
-                                                                 :class="item2.love_comment?'love_active':''">
-                                                                <i class="iconfont icon-shoucang icon-shoucang1"></i>
-                                                            </div>
-                                                            <div class="shoucang1_num">{{item2.love_count}}</div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="comment_replay_text">
-                                                        <span v-if="item.user_id!=item2.be_commented_user_id && item.user_id!=item2.user_id">回复 {{item2.be_commented_nickname}}：</span>
-                                                        {{item2.comment_content}}
-                                                        <span>{{item2.create_time}}</span></div>
-                                                </div>
-                                                <div class="clear"></div>
-                                            </div>
-                                        </transition-group>
-                                    </div>
-                                </li>
-                            </transition-group>
-                        </div>
-                        <div class="no_message" v-if="videoComment.length==0">
-                            <i class="iconfont iconfont_style icon-zanwupinglun"></i>
-                            <div class="no_message_tips">暂无评论</div>
-                        </div>
-                    </ul>
-                </div>
-            </van-popup>
-            <!--留言输入-->
-            <div class="comment_input_box_hover"></div>
-            <div class="comment_input_box" v-show="commentPop">
-                <!--<form action="#" class="comment_form">-->
-                <input :placeholder="commentPlaceholder" class="comment_input" v-model="comment_text" ref="content"
-                       @keyup.enter="checkComment"/>
-                <!--</form>-->
-                <div class="comment_input_right" @click="checkComment">
-                    <i class="iconfont icon-fasong comment_i" :class="canSend?'comment_i_active':''"></i>
-                </div>
-            </div>
+         
+        
+          
         </div>
     </div>
 </template>
@@ -491,16 +368,12 @@
                 this.showShareBox = false;
                 this.current = index;
                 //非ios切换直接自动播放下一个
-                if (!this.isiOS) {
+                
                     this.isVideoShow = false;
                     setTimeout(() => {
                         this.pauseVideo()
                     }, 100)
-                } else {
-                    //ios官方禁止video自动播放，未找到合适的方法，如果您发现了，麻烦告诉我一下谢谢啦
-                    this.playOrPause = true;
-                    this.iconPlayShow = true;
-                }
+                
 
 
             },
