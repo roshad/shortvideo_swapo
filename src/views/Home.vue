@@ -30,19 +30,8 @@
                  
                 </van-swipe-item>
             </van-swipe>
-            <!--底部操作栏-->
-            <div class="container_bottom">
-                <div class="border_progress" :style="'width:'+videoProcess+'%'"></div>
-                <div class="bottom_tab" :class="tabIndex==0?'tab_active':''" @click="changeTab(0)">
-                    <span class="bottom_tab_span ">首页</span>
-                </div>
-                <div class="bottom_tab" :class="tabIndex==1?'tab_active':''" @click="changeTab(1)">
-                    <img src="http://oss.jishiyoo.com/images/file-1575427746903.png" alt="" class="bottom_tab_icon">
-                </div>
-                <div class="bottom_tab" :class="tabIndex==2?'tab_active':''" @click="changeTab(2)">
-                    <span class="bottom_tab_span">我的</span>
-                </div>
-            </div>
+          
+         
          
         
           
